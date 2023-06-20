@@ -1,5 +1,5 @@
 import { Roboto } from 'next/font/google';
-import { ChakraProvider } from './providers/ChakraProvider';
+import { ChakraProvider } from '../providers/ChakraProvider';
 
 const roboto = Roboto({
 	weight: ['400', '500', '700'],
