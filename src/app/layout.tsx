@@ -1,3 +1,6 @@
+'use client';
+
+import { SidebarDrawerProvider } from '@/contexts/SidebarDrawerContext';
 import { Roboto } from 'next/font/google';
 import { ChakraProvider } from '../providers/ChakraProvider';
 
@@ -10,7 +13,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 	return (
 		<html lang="pt-BR">
 			<body className={roboto.className}>
-				<ChakraProvider>{children}</ChakraProvider>
+				<ChakraProvider>
+					<SidebarDrawerProvider>{children}</SidebarDrawerProvider>
+				</ChakraProvider>
 			</body>
 		</html>
 	);
