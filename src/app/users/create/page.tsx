@@ -4,13 +4,14 @@ import Input from '@/app/components/Form/input';
 import Header from '@/app/components/Header';
 import Sidebar from '@/app/components/Sidebar';
 import { Box, Button, Divider, Flex, Heading, HStack, SimpleGrid, VStack } from '@chakra-ui/react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 export default function CreateUser() {
 	const { push, back } = useRouter();
 
 	return (
-		<Box>
+		<Flex direction="column">
 			<Header />
 			<Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">
 				<Sidebar />
@@ -34,14 +35,16 @@ export default function CreateUser() {
 
 					<Flex mt="8" justify="flex-end">
 						<HStack spacing="4">
-							<Button colorScheme="whiteAlpha" onClick={back}>
-								Cancelar
-							</Button>
+							<Link href="/users" passHref legacyBehavior>
+								<Button as="a" colorScheme="whiteAlpha">
+									Cancelar
+								</Button>
+							</Link>
 							<Button colorScheme="pink">Salvar</Button>
 						</HStack>
 					</Flex>
 				</Box>
 			</Flex>
-		</Box>
+		</Flex>
 	);
 }
