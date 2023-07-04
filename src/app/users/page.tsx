@@ -19,6 +19,7 @@ import {
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
+import { useEffect } from 'react';
 import { RiAddLine, RiPencilLine } from 'react-icons/ri';
 import Header from '../components/Header';
 import Pagination from '../components/Pagination';
@@ -27,6 +28,13 @@ import Sidebar from '../components/Sidebar';
 export default function Users() {
 	const { push } = useRouter();
 	const isWideVersion = useBreakpointValue({ base: false, lg: true });
+
+	useEffect(() => {
+		fetch('http://localhost:3000/mirage/users')
+			.then((data) => data.json())
+			.then((data) => console.log(data))
+			.catch((err) => console.error(err));
+	}, []);
 
 	return (
 		<Flex direction="column">

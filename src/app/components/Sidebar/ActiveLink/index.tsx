@@ -20,7 +20,7 @@ export default function ActiveLink({ children, exactHref = false, ...rest }: Act
 	return (
 		<Link {...rest}>
 			{cloneElement(children, {
-				color: isActive ? ' pink.400' : 'gray.50'
+				color: isActive ? 'pink.400' : 'gray.50'
 			})}
 		</Link>
 	);
