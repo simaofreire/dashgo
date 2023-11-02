@@ -1,14 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-	reactStrictMode: true,
+	reactStrictMode: false,
 	async rewrites() {
 		return [
 			{
 				source: '/',
-				destination: '/home',
-			},
+				destination: '/home'
+			}
 		];
-	},
+	}
 };
 
 module.exports = nextConfig

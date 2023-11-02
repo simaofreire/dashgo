@@ -14,13 +14,13 @@ export function makeServer() {
 		factories: {
 			user: Factory.extend({
 				name(i: number) {
-					return `User ${i + 1}`;
+					return faker.person.fullName({ firstName: faker.person.firstName(), lastName: faker.person.lastName() });
 				},
 				email() {
 					return faker.internet.email().toLowerCase();
 				},
 				createdAt() {
-					return faker.date.recent({ days: 10 });
+					return faker.date.recent({ days: 10 }).toISOString();
 				}
 			})
 		},
@@ -30,11 +30,11 @@ export function makeServer() {
 		},
 
 		routes() {
-			this.namespace = 'mirage';
+			this.namespace = 'api';
 			this.timing = 1000;
 			this.get('/users');
 			this.post('/users');
-
+			this.namespace = '';
 			this.passthrough();
 		}
 	});

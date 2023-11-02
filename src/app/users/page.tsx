@@ -30,7 +30,7 @@ export default function Users() {
 	const isWideVersion = useBreakpointValue({ base: false, lg: true });
 
 	useEffect(() => {
-		fetch('http://localhost:3000/mirage/users')
+		fetch('http://localhost:3000/api/users')
 			.then((data) => data.json())
 			.then((data) => console.log(data))
 			.catch((err) => console.error(err));
