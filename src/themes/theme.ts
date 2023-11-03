@@ -25,7 +25,15 @@ export const theme = extendTheme({
 				bg: 'gray.900',
 				color: 'gray.50',
 				h: '100vh',
-				w: '100vw'
+				w: '100vw',
+				overflowX: 'hidden'
+			}
+		}
+	},
+	components: {
+		Button: {
+			baseStyle: {
+				cursor: 'pointer'
 			}
 		}
 	}

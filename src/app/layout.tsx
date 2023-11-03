@@ -2,6 +2,7 @@
 
 import { SidebarDrawerProvider } from '@/contexts/SidebarDrawerContext';
 import { ChakraProvider } from '@/providers/ChakraProvider';
+import { ReactQueryProvider } from '@/providers/ReactQueryProvider';
 import { makeServer } from '@/services/mirage';
 import { Roboto } from 'next/font/google';
 
@@ -19,7 +20,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 		<html lang="pt-BR">
 			<body className={roboto.className}>
 				<ChakraProvider>
-					<SidebarDrawerProvider>{children}</SidebarDrawerProvider>
+					<ReactQueryProvider>
+						<SidebarDrawerProvider>{children}</SidebarDrawerProvider>
+					</ReactQueryProvider>
 				</ChakraProvider>
 			</body>
 		</html>
