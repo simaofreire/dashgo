@@ -1,12 +1,12 @@
 'use client';
 
-import { useSidebarDrawer } from '@/hooks/useSidebarDrawer';
 import { Flex, Icon, IconButton, useBreakpointValue } from '@chakra-ui/react';
 import { RiMenuLine } from 'react-icons/ri';
 import Logo from './Logo';
 import NotificationsNav from './NotificationsNav';
 import Profile from './Profile';
 import SearchBox from './SearchBox';
+import { useSidebarDrawer } from '@/hooks/useSidebarDrawer';
 
 export default function Header() {
 	const isWideVersion = useBreakpointValue({ base: false, lg: true });
@@ -27,7 +27,7 @@ export default function Header() {
 
 			<Logo />
 
-			{isWideVersion && <Logo />}
+			{/* {isWideVersion && <Logo />} */}
 
 			{isWideVersion && <SearchBox />}
 

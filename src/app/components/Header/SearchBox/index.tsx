@@ -12,7 +12,7 @@ export default function SearchBox() {
 			py="4"
 			px="8"
 			ml="6"
-			maxWidth={400}
+			// maxWidth={400}
 			alignSelf="center"
 			color="gray.200"
 			position="relative"

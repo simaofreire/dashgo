@@ -17,17 +17,19 @@ import {
 	Tr,
 	useBreakpointValue
 } from '@chakra-ui/react';
-import { Link } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import { RiAddLine, RiPencilLine } from 'react-icons/ri';
 import Header from '../components/Header';
 import Pagination from '../components/Pagination';
 import Sidebar from '../components/Sidebar';
-import { useUsers } from '@/services/hooks/useUsers';
+import { useUsers } from '@/hooks/useUsers';
+import { useState } from 'react';
+import NextLink from 'next/link';
 
 export default function Users() {
 	const { push } = useRouter();
-	const { data, isError, isLoading, isSuccess, isFetching } = useUsers();
+	const [page, setPage] = useState(1);
+	const { data, isError, isLoading, isSuccess, isFetching } = useUsers(page);
 
 	const isWideVersion = useBreakpointValue({ base: false, lg: true });
 
@@ -45,7 +47,7 @@ export default function Users() {
 							{!isLoading && isFetching && <Spinner size="sm" color="gray.500" ml="4" />}
 						</Heading>
 
-						<Link href="/users/create">
+						<NextLink legacyBehavior href="/users/create">
 							<Button
 								as="a"
 								size="sm"
@@ -55,7 +57,7 @@ export default function Users() {
 							>
 								Criar novo
 							</Button>
-						</Link>
+						</NextLink>
 					</Flex>
 
 					{isLoading ? (
@@ -67,54 +69,54 @@ export default function Users() {
 							<Text>Falha ao obter dados dos usuários</Text>
 						</Flex>
 					) : (
-						<>
-							<Table colorScheme="whiteAlpha">
-								<Thead>
-									<Tr>
-										<Th px={['4', '4', '6']} color="gray.300" w="8">
-											<Checkbox colorScheme="pink" />
-										</Th>
-										<Th>Usuário</Th>
-										{isWideVersion && <Th>Data de cadastro</Th>}
-										<Th w="8"></Th>
-									</Tr>
-								</Thead>
-								<Tbody>
-									{data.map(({ id, email, name, createdAt }) => (
-										<Tr key={id}>
-											<Td px={['4', '4', '6']}>
+						isSuccess && (
+							<>
+								<Table colorScheme="whiteAlpha">
+									<Thead>
+										<Tr>
+											<Th px={['4', '4', '6']} color="gray.300" w="8">
 												<Checkbox colorScheme="pink" />
-											</Td>
-											<Td>
-												<Box>
-													<Link>
-														<Text fontWeight="bold">{name}</Text>
-													</Link>
-													<Text fontSize="sm" color="green.300">
-														{email}
-													</Text>
-												</Box>
-											</Td>
-											{isWideVersion && <Td>{createdAt}</Td>}
-											{isWideVersion && (
-												<Td>
-													<Button
-														as="a"
-														size="sm"
-														fontSize="sm"
-														colorScheme="whiteAlpha"
-														leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
-													>
-														Editar
-													</Button>
-												</Td>
-											)}
+											</Th>
+											<Th>Usuário</Th>
+											{isWideVersion && <Th>Data de cadastro</Th>}
+											<Th w="8"></Th>
 										</Tr>
-									))}
-								</Tbody>
-							</Table>
-							<Pagination totalCountOfRegisters={200} currentPage={5} onPageChange={() => {}} />
-						</>
+									</Thead>
+									<Tbody>
+										{data?.users.map(({ id, email, name, createdAt }) => (
+											<Tr key={id}>
+												<Td px={['4', '4', '6']}>
+													<Checkbox colorScheme="pink" />
+												</Td>
+												<Td>
+													<Box>
+														<Text fontWeight="bold">{name}</Text>
+														<Text fontSize="sm" color="green.300">
+															{email}
+														</Text>
+													</Box>
+												</Td>
+												{isWideVersion && <Td>{createdAt}</Td>}
+												{isWideVersion && (
+													<Td>
+														<Button
+															as="a"
+															size="sm"
+															fontSize="sm"
+															colorScheme="whiteAlpha"
+															leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
+														>
+															Editar
+														</Button>
+													</Td>
+												)}
+											</Tr>
+										))}
+									</Tbody>
+								</Table>
+								<Pagination totalCountOfRegisters={data?.totalCount} currentPage={page} onPageChange={setPage} />
+							</>
+						)
 					)}
 				</Box>
 			</Flex>
