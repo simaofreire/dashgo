@@ -25,6 +25,8 @@ import Sidebar from '../components/Sidebar';
 import { useUsers } from '@/hooks/useUsers';
 import { useState } from 'react';
 import NextLink from 'next/link';
+import { queryClient } from '@/services/queryClient';
+import { api } from '@/services/api';
 
 export default function Users() {
 	const { push } = useRouter();
@@ -32,6 +34,18 @@ export default function Users() {
 	const { data, isError, isLoading, isSuccess, isFetching } = useUsers(page);
 
 	const isWideVersion = useBreakpointValue({ base: false, lg: true });
+
+	async function handlePreFretchUser(id: string) {
+		return await queryClient.prefetchQuery({
+			queryKey: ['user', id],
+			queryFn: async () => {
+				const { data } = await api.get(`users/${id}`);
+
+				return data;
+			},
+			staleTime: 1000 * 60 * 10 // 10 minutes
+		});
+	}
 
 	return (
 		<Flex direction="column">
@@ -90,7 +104,9 @@ export default function Users() {
 												</Td>
 												<Td>
 													<Box>
-														<Text fontWeight="bold">{name}</Text>
+														<Text fontWeight="bold" onMouseEnter={() => handlePreFretchUser(id)} color="purple.400">
+															{name}
+														</Text>
 														<Text fontSize="sm" color="green.300">
 															{email}
 														</Text>

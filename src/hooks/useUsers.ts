@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 import { api } from '../services/api';
 
 type User = {
@@ -43,10 +43,10 @@ export async function getUsers(page: number): Promise<GetUsersResponse> {
 	}
 }
 
-export function useUsers(page: number) {
+export function useUsers(page: number, options?: UseQueryOptions<GetUsersResponse>) {
 	return useQuery({
 		queryKey: ['usersData', page],
 		queryFn: () => getUsers(page),
-		// initialData: []
+		...options
 	});
 }

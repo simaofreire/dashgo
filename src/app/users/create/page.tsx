@@ -3,8 +3,11 @@
 import { Input } from '@/app/components/Form/input';
 import Header from '@/app/components/Header';
 import Sidebar from '@/app/components/Sidebar';
+import { api } from '@/services/api';
+import { queryClient } from '@/services/queryClient';
 import { Box, Button, Divider, Flex, Heading, HStack, SimpleGrid, VStack } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useMutation } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -32,10 +35,29 @@ export default function CreateUser() {
 
 	const { errors, isSubmitting } = formState;
 
+	const createUser = useMutation({
+		mutationFn: async (newUser: CreateUserFormData) => {
+			const {
+				data: { user },
+				status
+			} = await api.post('users', {
+				user: {
+					...newUser,
+					created_at: new Date()
+				}
+			});
+
+			if (status === 201) push('/users');
+
+			return { user, status };
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['users'] });
+		}
+	});
+
 	const handleCreateUser: SubmitHandler<CreateUserFormData> = async (val) => {
-		await new Promise((resolve) => setTimeout(resolve, 2000));
-		console.log(val);
-		push('/users');
+		await createUser.mutateAsync(val);
 	};
 
 	return (
